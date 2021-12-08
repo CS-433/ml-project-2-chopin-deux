@@ -38,6 +38,7 @@ unique_pdb_set = set(unique_pdb)
 dmasif_test_set = set(test_list)
 
 
+
 training_list = []
 training_f = open(data_dir / "training_ppi.txt", "r")
 for line in training_f.readlines():
@@ -45,8 +46,35 @@ for line in training_f.readlines():
     training_list.append(line)
 dmasif_train_set = set(training_list)
 
+# The intersection between the dMaSIF training set and proteins necessary for Rosetta comparison
+rosetta_surf_list = list(sorted(unique_pdb_set))
 
-print(list(sorted(dmasif_train_set.intersection(unique_pdb_set))))
+# Check how long this is
+#print(len(list(sorted(dmasif_train_set.intersection(unique_pdb_set)))))
+
+first_chains = []
+second_chains = []
+# for i in rosetta_train_list:
+#     pdb_id = i.split('_')[0]
+#     first_chain = i.split('_')[1]
+#     first_chains.append(pdb_id + '_' + first_chain + '.pdb')
+#     second_chain = i.split('_')[2]
+#     second_chains.append(pdb_id + '_' + second_chain + '.pdb')
+#
+# all_pdbs = first_chains + second_chains
+# Save all pdb_ids used by RosettaSurf to get pdb's from dMaSIF preprocessing.
+# textfile = open(data_dir / "pdb_chain_select.txt", "w")
+# for element in all_pdbs:
+#     textfile.write(element + "\n")
+# textfile.close()
+
+
+# Save pdb/names of protein complexes used by RosettaSurf that intersect with dMaSIF training set (use for surfaces!)
+textfile = open(data_dir / "rosetta_surf_select.txt", "w")
+for element in rosetta_surf_list:
+    textfile.write(element + "\n")
+textfile.close()
+
 
 
 
