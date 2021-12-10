@@ -1,4 +1,4 @@
-# ml-project-2-chopin_deux
+# ml-project-2-chopin-deux
 
 This README describes the main scripts and data-files present in this project folder.
 
