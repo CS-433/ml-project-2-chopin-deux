@@ -1,6 +1,6 @@
 """
 Created on 24.11.21
-
+A simple script to compare the pdb's used in the RosettaSurf comparison to the training and test set of dMaSIF
 @author: maxjansen
 """
 from pathlib import Path
@@ -8,7 +8,7 @@ import re
 import glob
 from itertools import chain
 
-data_dir= Path('../data/')
+data_dir= Path('../../data/')
 pdb_list = []
 for filepath in data_dir.glob("*.slurm"):
     f = open(filepath, "r")
@@ -46,8 +46,14 @@ for line in training_f.readlines():
     training_list.append(line)
 dmasif_train_set = set(training_list)
 
-# The intersection between the dMaSIF training set and proteins necessary for Rosetta comparison
+# All pdb's used by RosettaSurf in one list
 rosetta_surf_list = list(sorted(unique_pdb_set))
+
+# Save pdb/names of protein complexes used by RosettaSurf that intersect with dMaSIF training set (use for surfaces!)
+textfile = open(data_dir / "rosetta_surf_select.txt", "w")
+for element in rosetta_surf_list:
+    textfile.write(element + "\n")
+textfile.close()
 
 # Check how long this is
 #print(len(list(sorted(dmasif_train_set.intersection(unique_pdb_set)))))
@@ -67,18 +73,3 @@ second_chains = []
 # for element in all_pdbs:
 #     textfile.write(element + "\n")
 # textfile.close()
-
-
-# Save pdb/names of protein complexes used by RosettaSurf that intersect with dMaSIF training set (use for surfaces!)
-textfile = open(data_dir / "rosetta_surf_select.txt", "w")
-for element in rosetta_surf_list:
-    textfile.write(element + "\n")
-textfile.close()
-
-
-
-
-
-
-
-

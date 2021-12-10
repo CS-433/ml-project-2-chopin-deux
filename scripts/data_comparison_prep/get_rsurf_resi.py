@@ -1,6 +1,8 @@
 """
 Created on 25.11.21
-
+This script returns a csv of all residues used by Andreas in RosettaSurf. It reads his slurm commands to get these.
+'rosetta_res.csv' is complete and contains 200 of each of the 20 AA's. Also columns for pdb_id, aa type and position.
+It also returns a csv of the residues the we managed to get a surface for, using dMaSIF. 99.6% were retrieved.
 @author: maxjansen
 """
 from pathlib import Path
@@ -10,9 +12,9 @@ from itertools import chain
 import pandas as pd
 
 # Get RosettaSurf comparison residues and the pdb they came from
-data_dir= Path('../data/')
+data_dir= Path('../../data/')
 df = pd.DataFrame(columns=['pdb_id', 'res_id'])
-for filepath in data_dir.glob("*.slurm"):
+for filepath in data_dir.glob("rosetta_slurm/*.slurm"):
     aa_type = str(filepath).split(".slurm")[0][-3:]
     aa_series = pd.Series(aa_type, name = 'restype')
     aa_series = aa_series.repeat(200)
@@ -50,10 +52,11 @@ df = df.drop(['index'], axis=1)
 
 # Get dMaSIF surface prediction data, make a set of all pdb_id's for which you have a surface
 surf_list = []
-surf_dir= Path('../data/surfaces')
+surf_dir= Path('../../data/rosetta_surfaces/')
 for filepath in surf_dir.glob("*predcoords.npy"):
-     pdb_id = str(filepath).split("_")[0]
-     pdb_id = str(pdb_id).split("surfaces/")[1]
+     print(filepath)
+     pdb_id = str(filepath).split("rosetta_surfaces/")[1]
+     pdb_id = str(pdb_id).split("_")[0]
      surf_list.append(pdb_id)
 
 surf_set = sorted(set(surf_list))
@@ -69,7 +72,6 @@ print(rosetta_set)
 
 # This is what we will use for dataset generation in Max's AA prediction
 final_df = df
-final_df.to_csv(data_dir / 'all_rosetta_res.csv')
 # Keep the pdb_id column, but copy a split where you only keep the first 4 characters before the underscore
 final_df['pdb'] = final_df.pdb_id.str.split("_").str[0]
 comparison_df = final_df

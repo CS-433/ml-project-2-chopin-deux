@@ -1,10 +1,10 @@
 """
 Created on 03.12.21
-
+This script compares the pdb_id's I put in a list to replace the dMaSIF test set to the actual surfaces I got back.
+It seems like there is a discrepancy, and I wonder why dMaSIF does not process some pdbs's.
 @author: maxjansen
 """
-### This script compares the pdb_id's I put in a list to replace the dMaSIF test set to the actual surfaces I got back.
-### It seems like there is a discrepancy, and I wonder why dMaSIF does not process some pdbs's.
+
 
 from pathlib import Path
 import re
