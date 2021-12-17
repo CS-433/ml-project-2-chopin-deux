@@ -16,68 +16,58 @@ import pandas as pd
 import numpy as np
 from Bio.PDB import *
 from get_aa_helper import *
+from get_aa_loader import *
 from tqdm import tqdm
 from scipy.spatial import distance
 from zander import *
 
+# Load the directories containing general data, surface-npy-files, and pdbs.
+data_dir, surf_dir, pdb_dir = load_directories()
+# Load DataFrame of residues and pdbs
+df, pdb_chain_list = prepare_df(data_dir)
+
+# Prepare a new df that will contain only verified rows, useful for checking npy later
+try:
+    clean_df = pd.read_csv(data_dir / "cleaned_df.csv")
+    print("Loaded previously cleaned df successfully!")
+except:
+    print("No cleaned df to load, create it from scratch.")
+    clean_df = df_cleaner(df, pdb_chain_list, pdb_dir)
+    clean_df.to_csv(data_dir / "cleaned_df.csv")
+
+
+# Create empty list of restypes, only append to this if restype in df matches pdb later on.
+target_dict = {'Target type': []}
+feat_dict = dict.fromkeys(['feat_data'])
 
 
 
-# Get the pandas df containing all the pdb's you need.
-data_dir = Path('../../data/')
-surf_dir = Path('../../data/rosetta_surfaces')
-pdb_dir = Path('../../data/rosetta_pdbs/')
-df = pd.read_csv(data_dir / "rosetta_res.csv")
-df = df.drop(['Unnamed: 0'], axis=1)
+#surf_dict = load_surface_np(opp_chain, surf_dir)
+
+#####
+#target_dict['Target type'].append(res2num[restypes[j].upper()])
+# Get C-beta coordinate with function. Uses pseudo coordinate for Glycine
+#print(structure[0][chain][k]["CB"])
+
+# Get opposing chain and load its surface
+# opp_chain = surf_finder(pdb_fpath.stem, pdb_dir)
+######
+
+print(clean_df.columns)
 
 
-# Sort dataframe by pdb and chain to prepare for efficient iteration
-df = df.sort_values(by=['pdb', 'chain'])
-df = df.reset_index()
-df = df.drop(['index'], axis=1)
-pd.set_option('display.max_rows', df.shape[0])
-
-# Iterate through dataframe. First get unique combinations of pdb_id and chains that residues belong to.
-pdb_chain_list = list(df.groupby(['pdb', 'chain']).count().index)
-
-# Count for how many pdb's in df you got the right residues
-counter = 0
-counter_no = 0
 
 
-for i in tqdm(pdb_chain_list[2:3]):
-    # Get pdb-filepaths in pdb directory that match df "pdb_id + chain" combinations.
-    # Do this because df 'chains' column only contain single chain_id's,
-    # whereas some pdb-files have multiple chains in the filename. Hence the asterisks.
-    pdb_id = i[0]
-    chain = i[1]
-    res_idxs = (df['pdb'] == pdb_id) & (df['chain'] == chain)
-    resids = list(df[res_idxs]["resi"])
-    restypes = list(df[res_idxs]["restype"])
-
-    try:
-        pdb_fp = pdb_dir.glob(str("*" + (pdb_id) + "*" + str(chain) + "*"))
-        # Get surface of opposite chain
-        surf_fp = list(surf_dir.glob(str("*" + pdb_id + "*" )))
-        # (pdb_id + chain) not in
-
-        print(surf_fp[0])
-        counter += 1
-        structure = struct_loader(next(pdb_fp))
-        for j in resids:
-            print(structure[0][chain][j])
 
 
-        # # Load one pdb_filepath at a time, returns generator of residues
-        # resi_gen = res_loader(next(pdb_fp))
-        # print(list(resi_gen))
 
-    # From all residues
-    except:
-        print('No pdb found')
-        counter_no += 1
-print("counter ", counter)
-print("counter_no", counter_no)
+    # except:
+    #     print('No pdb found')
+    #     counter_no += 1
+
+### Important!!! Save test and training set here.
+
+
     # Load all residues from a pdb once
     #res_loader(pdb_filepath)
 
@@ -104,13 +94,7 @@ print("counter_no", counter_no)
 ##############################
 
 
-# def load_surface_np(pdb_id_chain):
-#     surf_path = Path('/Users/maxjansen/EPFL/AA_at_Interface/dataset/surfaces')
-#     coord_array = np.load(surf_path / str(pdb_id_chain +
-#                                           "_predcoords.npy"))
-#     feat_array = np.load(surf_path / str(pdb_id_chain +
-#                                          "_predfeatures.npy"))
-#     return {"xyz": coord_array, "feats": feat_array}
+
 
 # for i in df.index:
 #     # Get pdb and chain for iteration

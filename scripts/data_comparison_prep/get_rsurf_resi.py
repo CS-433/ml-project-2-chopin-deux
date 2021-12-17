@@ -3,6 +3,8 @@ Created on 25.11.21
 This script returns a csv of all residues used by Andreas in RosettaSurf. It reads his slurm commands to get these.
 'rosetta_res.csv' is complete and contains 200 of each of the 20 AA's. Also columns for pdb_id, aa type and position.
 It also returns a csv of the residues the we managed to get a surface for, using dMaSIF. 99.6% were retrieved.
+
+Main output is done: '../data/rosetta_res.csv'
 @author: maxjansen
 """
 from pathlib import Path
