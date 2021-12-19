@@ -22,7 +22,9 @@ To do this, one needs to know which residues were used for the single amino acid
 ## Additional scripts for checks
 
 - `/scripts/data_comparison_prep/get_pdb_set.py` A simple script to compare the pdb's used in the RosettaSurf comparison to the training and test set of dMaSIF.
+
 - After generating surfaces with dMaSIF, we checked how many were succesfully retrieved, see `/scripts/data_comparison_prep/pdb_id_check.py`. It saves a list of pdb_ids for which no surfaces were generated. 
+
 - The `/scripts/masif_plugin/` folder contains scripts to visualise protein surfaces generated using the MaSIF framework in PyMol. Most of  these scripts are from the original MaSIF publication (Gainza et al., 2020). The `/scripts/masif_plugin/dmasif_pymol.py` script is written by Arne Schneuing and allows for visualization of our surfaces. 
 
 
