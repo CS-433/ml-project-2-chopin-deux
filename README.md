@@ -17,6 +17,11 @@ To do this, one needs to know which residues were used for the single amino acid
 
 **Step 2:** `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
 
+## Scripts for main goal 2. Data set augmentation
+
+The `data_augmentation_prep` folder contains "jack_multi_patch_1.py" script 
+##consider changing the name to something more descriptive
+which generates multiple new patches of N surface points closest to the center of mass, starting from the fifth closest.
 
 ----
 ## Additional scripts for checks
