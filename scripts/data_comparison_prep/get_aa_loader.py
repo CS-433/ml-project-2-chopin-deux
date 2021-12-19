@@ -84,4 +84,4 @@ def df_cleaner(df, pdb_chain_list, pdb_dir):
             print("pdb not found")
     print("counter ", counter)
     print("counter_no", counter_no)
-    return clean_df
+    return clean_df, cleaned_pdb_chain_list
