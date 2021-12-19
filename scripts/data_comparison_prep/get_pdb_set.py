@@ -60,6 +60,7 @@ textfile.close()
 
 first_chains = []
 second_chains = []
+
 # for i in rosetta_train_list:
 #     pdb_id = i.split('_')[0]
 #     first_chain = i.split('_')[1]
