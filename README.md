@@ -9,5 +9,7 @@ The relevance of each directory and file will be apparent when the two main goal
 
 ## Scripts for main goal 1. Comparison
 To perform a fair comparison, identical datasets are required.
+To do this, one needs to know which residues were used for the single amino acid retrieval in the RosettaSurf publication. 
 
+*Step 1:* In `data/rosetta_slurm`
  
