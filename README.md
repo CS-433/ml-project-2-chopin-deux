@@ -17,7 +17,7 @@ To do this, one needs to know which residues were used for the single amino acid
 
 ### Generating and retrieving surfaces using dMaSIF
 
-**Step 2:** `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
+**Step 3:** `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
 
 ## Scripts for main goal 2. Data set augmentation
 
@@ -33,5 +33,11 @@ which generates multiple new patches of N surface points closest to the center o
 - After generating surfaces with dMaSIF, we checked how many were succesfully retrieved, see `/scripts/data_comparison_prep/pdb_id_check.py`. It saves a list of pdb_ids for which no surfaces were generated. 
 
 - The `/scripts/masif_plugin/` folder contains scripts to visualise protein surfaces generated using the MaSIF framework in PyMol. Most of  these scripts are from the original MaSIF publication (Gainza et al., 2020). The `/scripts/masif_plugin/dmasif_pymol.py` script is written by Arne Schneuing and allows for visualization of our surfaces. 
+
+## Helpers and other auxiliary files
+
+- The `scripts/data_comparison_prep/get_aa_helper.py` contains helper functions that are then used in `scripts/data_comparison_prep/get_specific_aa.py` to obtain training and testing dataset for comparison with RosettaSurf.
+- The `scripts/data_comparison_prep/get_aa_loader.py` is used to load, sort, and pre-clean the dataframe containing Pdbs used in Rosetta and the data points containing surfaces' features by removing the unnecessary columns.
+- The `scripts/data_comparison_prep/get_pdb_set.py` is used as a code verification method to ensure that dMaSIF loads the exact same dataset as dataset used in RosettaSurf (the benchmark).
 
 
