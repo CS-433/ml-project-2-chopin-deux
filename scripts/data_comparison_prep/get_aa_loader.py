@@ -22,7 +22,7 @@ def load_directories():
     General data, surfaces and pdbs."""
     # Get the pandas df containing all the pdb's you need.
     data_dir = Path('../../data/')
-    surf_dir = Path('../../data/rosetta_surfaces')
+    surf_dir = Path('../../data/surfaces')
     pdb_dir = Path('../../data/rosetta_pdbs/')
     return data_dir, surf_dir, pdb_dir
 
@@ -43,12 +43,13 @@ def prepare_df(data_dir):
     pdb_chain_list = list(df.groupby(['pdb', 'chain']).count().index)
     return df, pdb_chain_list
 
-def df_cleaner(df, pdb_chain_list, pdb_dir):
+def df_cleaner(df, pdb_dir, surf_dir):
     """Remove rows of the df so you only keep pdbs where you can retrieve every single residue."""
     # Keep count of how many pdb's in df got the right residues
     counter = 0
     counter_no = 0
     clean_df = df
+    pdb_chain_list = list(df.groupby(['pdb', 'chain']).count().index)
     # First iteration is just for checking whether everything matches
     for i in tqdm(pdb_chain_list):
         # Iterate through unique pdb-chain combinations in DataFrame.
@@ -67,6 +68,8 @@ def df_cleaner(df, pdb_chain_list, pdb_dir):
             pdb_fpath = next(pdb_dir.glob(str("*" + (pdb_id) + "*" + str(chain) + "*")))
             # Load the entire pdb_chain
             structure = struct_loader(pdb_fpath)
+            opp_chain = surf_finder(pdb_fpath.stem, pdb_dir)
+            surf_dict = load_surface_np(opp_chain, surf_dir)
 
             for j,k in enumerate(resids):
                 # Check whether residue in df matches residue in structure at position!
@@ -81,7 +84,8 @@ def df_cleaner(df, pdb_chain_list, pdb_dir):
         except:
             counter_no += 1
             clean_df.drop(res_idxs[res_idxs].index.to_list(), inplace=True)
+
             print("pdb not found")
     print("counter ", counter)
     print("counter_no", counter_no)
-    return clean_df, cleaned_pdb_chain_list
+    return clean_df

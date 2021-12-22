@@ -10,7 +10,7 @@ from itertools import chain
 
 data_dir= Path('../../data/')
 pdb_list = []
-for filepath in data_dir.glob("*.slurm"):
+for filepath in data_dir.glob("rosetta_slurm/*.slurm"):
     f = open(filepath, "r")
     for line in f.readlines():
         if line.startswith("pdb_id"):
@@ -27,7 +27,7 @@ unique_pdb = (list(set(list(unnested_pdb))))
 
 ############
 test_list = []
-test_f = open(data_dir / "testing_ppi.txt", "r")
+test_f = open(data_dir / "dmasif_lists/testing_ppi.txt", "r")
 for line in test_f.readlines():
     line = line.split("\n")[0]
     test_list.append(line)
@@ -36,11 +36,12 @@ for line in test_f.readlines():
 #######
 unique_pdb_set = set(unique_pdb)
 dmasif_test_set = set(test_list)
+print(unique_pdb_set.intersection(dmasif_test_set))
 
 
 
 training_list = []
-training_f = open(data_dir / "training_ppi.txt", "r")
+training_f = open(data_dir / "dmasif_lists/training_ppi.txt", "r")
 for line in training_f.readlines():
     line = line.split("\n")[0]
     training_list.append(line)

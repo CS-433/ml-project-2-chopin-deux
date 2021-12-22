@@ -78,7 +78,6 @@ def extend_cb(residue):
     N, CA, C = get_ncac(residue)
     return extend(C, N, CA, 1.522, 1.927, -2.143)
 
-
 def get_cb_coord(residue, pdb_id, chain):
     """Returns C-beta coord of a residue object. Take pdb_id and chain in case
     you can not get Cb of non-Gly residue."""
@@ -112,7 +111,7 @@ def dist_selector(c_coord, surf_dict, n_points):
     dist_index = np.argsort(dist_array)
     # Get distances of selected points to c-coord and their coordinates
     selected_coords = point_coords[dist_index][0:n_points]
-    selected_dists = dist_array[dist_index][0:10]
+    selected_dists = dist_array[dist_index][0:n_points]
     # Get features of selected points, based on index
     selected_feats = point_feats[dist_index][0:n_points]
     return selected_coords, selected_dists, dist_index, selected_feats
@@ -122,7 +121,7 @@ def get_n_points(res_obj, surf_dict, pdb_id, chain):
     Also adds features such as distance and angles."""
     # res_obj is a biopython class. Retrieved with: structure[0][chain][k].
     # get coordinates of CB atom.
-    n_points = 100
+    n_points = 50
     cb_coord, c_vector = get_cb_coord(res_obj, pdb_id, chain)
     selected_coords, selected_dists, dist_index, selected_feats = dist_selector(
         cb_coord, surf_dict, n_points)
@@ -133,10 +132,35 @@ def get_n_points(res_obj, surf_dict, pdb_id, chain):
     ncac = get_ncac(res_obj)
     N, CA, C = ncac[0], ncac[1], ncac[2]
     thetas = np.array([to_dih(N, CA, cb_coord, i) for i in selected_coords])
+    final_feats = np.column_stack((selected_feats, selected_dists, angles, thetas))
+    # =============================================================================
+    # # UNCOMMENT this if you want to save point patch per AA, for visualisation in pymol
+    # seq = res_obj.get_full_id()[3][1]
+    # AA_type = res_obj.get_resname()
+    # point_dir = Path("../../data/aa_points")
+    # np.save(point_dir / (pdb_id  + chain + AA_type + str(seq) + "_predcoords.npy"), selected_coords)
+    # np.save(point_dir / (pdb_id + chain + AA_type + str(seq) + "_predfeatures.npy"), selected_feats)
+    # =============================================================================
+    return final_feats
 
-    # print("selected coords", selected_coords.shape, type(selected_coords), selected_coords)
-    # print("selected feats", selected_feats.shape, type(selected_feats), selected_feats)
-    # print("selected dists", selected_dists.shape, type(selected_dists), selected_dists)
+def surface_interface(surf_dict):
+    """Takes dict of surface points coordinates and features and only returns
+    features with interface feature == True"""
+    interface_idx = np.where(surf_dict['feats'][:, 33] == 1)[0]
+    interface_coords = surf_dict['xyz'][interface_idx]
+    return interface_coords
 
-    return selected_coords, selected_feats, selected_dists
+def get_ca_coord(resi):
+    """Gets C-alpha coordinates for residue"""
+    return resi['CA'].get_coord()
 
+def find_inter_res(res_ls, inter_coords):
+    """Returns residues from a protein structure (chain) that are close to opposing chain.
+    Takes list of residues on one side and dict of interface points on the other chain as input. """
+    dist_thres = 4
+    ca_arr = np.stack(list(map(get_ca_coord, res_ls)))
+    # Compute distances of all protein carbon alphas to interface points. Only keep residues within
+    # dist threshold. Use this index for residue selection.
+    dist_bool = np.any(distance.cdist(ca_arr, inter_coords, 'euclidean') < dist_thres, axis = 1)
+    close_res = np.array(res_ls)[dist_bool]
+    return close_res
