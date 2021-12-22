@@ -38,3 +38,23 @@ which generates multiple new patches of N surface points closest to the center o
 
 - The `scripts/data_comparison_prep/get_aa_helper.py` contains helper functions that are then used in `scripts/data_comparison_prep/get_specific_aa.py` to obtain training and testing dataset for comparison with RosettaSurf.
 - The `scripts/data_comparison_prep/get_aa_loader.py` is used to load, sort, and pre-clean the dataframe containing Pdbs used in Rosetta and the data points containing surfaces' features by removing the unnecessary columns.
+
+
+------
+
+For Jack:
+## Tensorboard
+```
+module load gcc
+module load python
+source env540/python_env/bin/activate
+hostname -I | awk '{print $1}'
+tensorboard --logdir=runs --host $SERVER_IP --port $SERVER_PORT
+```
+
+## Jupyter notebook
+```
+jupyter notebook --no-browser --port=1234 --ip=$(hostname -i)
+ssh -NL 1234:hostname:1234 user@izar.epfl.ch
+```
+Copy the url that will appear in remote terminal.
