@@ -47,10 +47,20 @@ For Jack:
 ```
 module load gcc
 module load python
-source env540/python_env/bin/activate
-hostname -I | awk '{print $1}'
-tensorboard --logdir=runs --host $SERVER_IP --port $SERVER_PORT
+source amino_env/python_env/bin/activate
+``` 
+Get hostname (it is a number) with:
 ```
+hostname -I | awk '{print $1}'
+```
+Fill it in here:
+```
+tensorboard --logdir=runs --host hostname --port $SERVER_PORT
+```
+On you local device:
+```ssh -L 5555:172.19.17.1:8888 jansen@izar.epfl.ch```
+
+
 
 ## Jupyter notebook
 ```
