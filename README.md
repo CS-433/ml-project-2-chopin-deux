@@ -13,6 +13,8 @@ The relevance of each directory and file will be apparent when the main goal of 
 
 **Step 3:** Find the comparison at the end of the notebook.
 
+*note: if for some reason, the test data does not work, it is also provided in the google drive below
+
 ## Used scripts for main goal Comparison
 To perform a fair comparison, identical datasets are required.
 To do this, one needs to know which residues were used for the single amino acid retrieval in the RosettaSurf publication. 
