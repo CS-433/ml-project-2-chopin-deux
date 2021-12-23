@@ -8,7 +8,9 @@ The relevance of each directory and file will be apparent when the main goal of 
 ### Compare the model with Rosetta
 
 **Step 1:** Clone the git repository to your local device.
+
 **Step 2:** Open `/scripts/Test_set_and_comparison.ipynb` and run the notebook.
+
 **Step 3:** Find the comparison at the end of the notebook.
 
 ## Used scripts for main goal Comparison
