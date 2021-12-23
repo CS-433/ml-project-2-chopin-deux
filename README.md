@@ -57,7 +57,7 @@ Fill it in here:
 tensorboard --logdir=runs --host hostname --port $SERVER_PORT
 ```
 On you local device:
-```ssh -L 5555:172.19.17.1:8888 jansen@izar.epfl.ch```
+```ssh -L 5555:hostname:8888 username@izar.epfl.ch```
 
 
 ## Jupyter notebook
