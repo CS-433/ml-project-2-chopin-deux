@@ -63,6 +63,8 @@ module load gcc
 module load python
 source amino_env/python_env/bin/activate
 ``` 
+Change directory to the scripts directory.
+
 Get hostname (it is a number) with:
 ```
 hostname -I | awk '{print $1}'
