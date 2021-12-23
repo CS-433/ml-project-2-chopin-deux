@@ -23,11 +23,12 @@ To do this, one needs to know which residues were used for the single amino acid
 
 - The `/scripts/data_comparison_prep/zander.py` adds new features to the data set, including geometric angles between the residues.
 
+- `/scripts/RosettaSurf_benchmark.ipynb` is the script from the original RosettaSurf github which contains the data for the Rosetta comparison.
+
 *Generating and retrieving surfaces using dMaSIF*
 
 - `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
 
-- `/scripts/RosettaSurf_benchmark.ipynb` is the script from the original RosettaSurf github which contains the data for the Rosetta comparison.
 ----
 ## Additional scripts for checks
 
