@@ -2,12 +2,10 @@
 
 This README describes the main scripts and data-files present in this project folder.
 
-The relevance of each directory and file will be apparent when the two main goals of this project are kept in mind:
-1. Comparing the classification accuracy of our protein surface-based machine learning algorithm to commonly used methods, mainly Rosetta.
+The relevance of each directory and file will be apparent when the main goal of this project are kept in mind:
+*Comparing the classification accuracy of our protein surface-based machine learning algorithm to commonly used methods, mainly Rosetta.*
 
-2. Improving the accuracy of our algorithm by dataset augmentation. The key concept here is sampling of multiple patches per residue at a protein-protein interface.
-
-## Scripts for main goal 1. Comparison
+## Scripts for main goal Comparison
 To perform a fair comparison, identical datasets are required.
 To do this, one needs to know which residues were used for the single amino acid retrieval in the RosettaSurf publication. 
 
@@ -19,11 +17,6 @@ To do this, one needs to know which residues were used for the single amino acid
 
 **Step 3:** `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
 
-## Scripts for main goal 2. Data set augmentation
-
-The `data_augmentation_prep` folder contains "jack_multi_patch_1.py" script 
-##consider changing the name to something more descriptive
-which generates multiple new patches of N surface points closest to the center of mass, starting from the fifth closest.
 
 ----
 ## Additional scripts for checks
@@ -41,8 +34,14 @@ which generates multiple new patches of N surface points closest to the center o
 
 
 ------
+### Procedure to train the model
 
-For Jack:
+**Step 1:** Get the training data from the google drive (https://drive.google.com/drive/folders/16iuOe2GBY9-flGjP7FfbjYjIabSq2Uy1?usp=sharing)
+Place all the directories in the "data" directory. 
+
+**Step 2:** Open `/scripts/train.ipynb` on a cluster and use the tensorboard to monitor the progress.
+For instructions on how to open a notebook and the cluster and a tensorboard on a cluster see the instructions below:
+
 ## Tensorboard
 ```
 module load gcc
@@ -61,10 +60,9 @@ On you local device:
 ```ssh -L 5555:172.19.17.1:8888 jansen@izar.epfl.ch```
 
 
-
 ## Jupyter notebook
 ```
 jupyter notebook --no-browser --port=1234 --ip=$(hostname -i)
 ssh -NL 1234:hostname:1234 user@izar.epfl.ch
 ```
-Copy the url that will appear in remote terminal.
+Copy the url that will appear in remote terminal and paste it in your browser.
