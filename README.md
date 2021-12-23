@@ -71,7 +71,7 @@ hostname -I | awk '{print $1}'
 ```
 Fill it in here:
 ```
-tensorboard --logdir=runs --host hostname --port $SERVER_PORT
+tensorboard --logdir=runs --host hostname --port 8888
 ```
 On you local device:
 ```ssh -L 5555:hostname:8888 username@izar.epfl.ch```
