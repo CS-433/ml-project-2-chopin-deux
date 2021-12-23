@@ -5,19 +5,27 @@ This README describes the main scripts and data-files present in this project fo
 The relevance of each directory and file will be apparent when the main goal of this project are kept in mind:
 *Comparing the classification accuracy of our protein surface-based machine learning algorithm to commonly used methods, mainly Rosetta.*
 
-## Scripts for main goal Comparison
+### Compare the model with Rosetta
+
+**Step 1:** Clone the git repository to your local device.
+**Step 2:** Open `/scripts/Test_set_and_comparison.ipynb` and run the notebook.
+**Step 3:** Find the comparison at the end of the notebook.
+
+## Used scripts for main goal Comparison
 To perform a fair comparison, identical datasets are required.
 To do this, one needs to know which residues were used for the single amino acid retrieval in the RosettaSurf publication. 
 
-**Step 1:** In `data/rosetta_slurm` there are slurm files for every amino acid. `scripts/data_comparison_prep/get_rsurf_resi.py` returns a csv of all residues used by Andreas in RosettaSurf. It reads his slurm commands to get these. `data/rosetta_res.csv` is complete and contains 200 of each of the 20 AA's. Also columns for pdb_id, aa type and position.
+- In `data/rosetta_slurm` there are slurm files for every amino acid. `scripts/data_comparison_prep/get_rsurf_resi.py` returns a csv of all residues used by Andreas in RosettaSurf. It reads his slurm commands to get these. `data/rosetta_res.csv` is complete and contains 200 of each of the 20 AA's. Also columns for pdb_id, aa type and position.
 
-**Step 2:** In `scripts/data_comparison_prep/get_specific_aa.py`, the test and training set is created to compare the performance of Chopin software to the RosettaSurf. The test set is what we will perform predictions on, the ~200 * 20 residues from 1495 pdb's. All other residues from those pdb's will serve as a training set. The pdbs are loaded in ascending order by pdb, chain, and then residue.
+- In `scripts/data_comparison_prep/get_specific_aa.py`, the test and training set is created to compare the performance of Chopin software to the RosettaSurf. The test set is what we will perform predictions on, the ~200 * 20 residues from 1495 pdb's. All other residues from those pdb's will serve as a training set. The pdbs are loaded in ascending order by pdb, chain, and then residue.
 
-### Generating and retrieving surfaces using dMaSIF
+- The `/scripts/data_comparison_prep/zander.py` adds new features to the data set, including geometric angles between the residues.
 
-**Step 3:** `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
+*Generating and retrieving surfaces using dMaSIF*
 
+- `/scripts/data_comparison_prep/find_pdbs.py` allows you to retrieve the relevant pdbs from the cluster after maSIF has generated the relevant surface data files. 
 
+- `/scripts/RosettaSurf_benchmark.ipynb` is the script from the original RosettaSurf github which contains the data for the Rosetta comparison.
 ----
 ## Additional scripts for checks
 
