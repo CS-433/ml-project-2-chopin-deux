@@ -7,6 +7,8 @@ The relevance of each directory and file will be apparent when the main goal of 
 
 ### Compare the model with Rosetta
 
+Install virtual enviroment using `requirements.txt`
+
 **Step 1:** Clone the git repository to your local device.
 
 **Step 2:** Open `/scripts/Test_set_and_comparison.ipynb` and run the notebook.
